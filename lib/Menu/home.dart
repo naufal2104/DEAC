@@ -113,26 +113,29 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           color: Color(0xFF00A9FA), // Warna ditekan
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.account_circle, color: Colors.white, size: 50), // warna ikon biasa
+                    Icon(Icons.account_circle,
+                        color: Colors.white, size: 50), // warna ikon biasa
                     SizedBox(width: screenWidth * 0.02),
                     Text(
                       'NAUFAL',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: screenHeight * 0.020,
-                        fontWeight: FontWeight.bold, 
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 IconButton(
-                  icon: Icon(Icons.email_outlined, color: Colors.white, size: 40),
+                  icon:
+                      Icon(Icons.email_outlined, color: Colors.white, size: 40),
                   onPressed: () {
                     // Aksi ketika ikon pesan ditekan
                   },
@@ -142,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -161,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Container(
-                height: screenHeight * 0.17, // Tinggi 
+                height: screenHeight * 0.17, // Tinggi
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -170,15 +172,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset('assets/images/iklan/iklan1.png', fit: BoxFit.cover),
+                      child: Image.asset('assets/images/iklan/iklan1.png',
+                          fit: BoxFit.cover),
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset('assets/images/iklan/iklan2.png', fit: BoxFit.cover),
+                      child: Image.asset('assets/images/iklan/iklan2.png',
+                          fit: BoxFit.cover),
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset('assets/images/iklan/iklan3.png', fit: BoxFit.cover),
+                      child: Image.asset('assets/images/iklan/iklan3.png',
+                          fit: BoxFit.cover),
                     ),
                   ],
                 ),
@@ -193,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
+                  horizontal: screenWidth * 0.05,
+                  vertical: screenHeight * 0.01),
               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,7 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PostTestScreen()), // Navigasi ke halaman Post Test
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostTestScreen()), // Navigasi ke halaman Post Test
                       );
                     },
                   ),
@@ -273,7 +281,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: (screenWidth > 600) ? 4 : 3, //  grid berdasarkan lebar layar
+                      crossAxisCount: (screenWidth > 600)
+                          ? 4
+                          : 3, //  grid berdasarkan lebar layar
                       mainAxisSpacing: screenHeight * 0.01,
                       crossAxisSpacing: screenWidth * 0.02,
                       childAspectRatio: 0.85,
@@ -281,13 +291,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: menuTitles.length,
                     itemBuilder: (context, index) {
                       final double topMargin =
-                          (index == 0 || index == 1 || index == 2) ? screenHeight * 0.02 : 0.0;
+                          (index == 0 || index == 1 || index == 2)
+                              ? screenHeight * 0.02
+                              : 0.0;
                       return GestureDetector(
                         onTap: () {
                           // Navigasi ke halaman yang sesuai
                           switch (menuTitles[index]) {
                             case 'HTML':
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HtmlPage()));
                               break;
                             case 'CSS':
                               // Tambah navigasi ke halaman CSS
@@ -311,9 +326,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromARGB(255, 255, 255, 255)
-                                              .withOpacity(0.1),
+                                      color: const Color.fromARGB(
+                                              255, 255, 255, 255)
+                                          .withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     width: screenWidth * 0.2,
@@ -353,4 +368,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

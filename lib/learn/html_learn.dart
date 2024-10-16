@@ -8,22 +8,22 @@ void main() {
   runApp(MyApp());
 }
 
-class HtmlPage extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Learn Page',
-      home: LearnPage(),
+      title: 'Html Page',
+      home: HtmlPage(),
     );
   }
 }
 
-class LearnPage extends StatefulWidget {
+class HtmlPage extends StatefulWidget {
   @override
-  _LearnPageState createState() => _LearnPageState();
+  _HtmlPageState createState() => _HtmlPageState();
 }
 
-class _LearnPageState extends State<LearnPage> {
+class _HtmlPageState extends State<HtmlPage> {
   final List<VideoPlayerController> _controllers = [];
   final List<bool> _isPlayingList = [];
 
@@ -297,6 +297,7 @@ class _LearnPageState extends State<LearnPage> {
     return '$minutes:$seconds';
   }
 }
+
 class FullScreenVideoPage extends StatefulWidget {
   final VideoPlayerController controller;
 
@@ -308,7 +309,7 @@ class FullScreenVideoPage extends StatefulWidget {
 
 class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
   bool _showControls = true;
-  bool _isFullScreen = true; // To manage fullscreen toggle
+  bool _isFullScreen = true;
   late Timer _hideControlsTimer;
 
   @override
@@ -316,10 +317,9 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
     super.initState();
     widget.controller.addListener(() {
       if (mounted) {
-        setState(() {}); // Update UI when video state changes
+        setState(() {}); 
       }
     });
-    // Kunci orientasi ke landscape saat masuk fullscreen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -329,14 +329,12 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
 
   @override
   void dispose() {
-    // Kembalikan orientasi ke portrait saat keluar fullscreen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // Batalkan timer saat widget dihapus
     _hideControlsTimer.cancel();
-    widget.controller.removeListener(() {}); // Hapus listener
+    widget.controller.removeListener(() {}); 
     super.dispose();
   }
 
@@ -368,7 +366,7 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
           widget.controller.pause();
         } else {
           widget.controller.play();
-          _startHideControlsTimer(); // Start the timer again when video is playing
+          _startHideControlsTimer();
         }
       });
     }
@@ -381,22 +379,42 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
     return "$minutes:$seconds";
   }
 
+  void _seekForward() {
+    final currentPosition = widget.controller.value.position;
+    final newPosition = currentPosition + Duration(seconds: 10);
+    widget.controller.seekTo(newPosition);
+  }
+
+  void _seekBackward() {
+    final currentPosition = widget.controller.value.position;
+    final newPosition = currentPosition - Duration(seconds: 10);
+    widget.controller.seekTo(newPosition);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
         onTap: _toggleControls,
+        onDoubleTapDown: (details) {
+          final tapPosition = details.localPosition.dx;
+          if (tapPosition < screenWidth / 2) {
+            _seekBackward();
+          } else {
+            _seekForward();
+          }
+        },
         child: Stack(
           children: [
-            // Fullscreen Video Player
             Center(
               child: AspectRatio(
                 aspectRatio: widget.controller.value.aspectRatio,
                 child: VideoPlayer(widget.controller),
               ),
             ),
-            // Controls Overlay
             if (_showControls)
               Positioned.fill(
                 child: GestureDetector(
@@ -406,7 +424,6 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        // Video Progress Bar
                         VideoProgressIndicator(
                           widget.controller,
                           allowScrubbing: true,
@@ -418,7 +435,6 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Play/Pause Button
                             IconButton(
                               onPressed: _playPause,
                               icon: Icon(
@@ -429,15 +445,13 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
                                 size: 30,
                               ),
                             ),
-                            // Video Position and Duration
                             Text(
                               '${_formatDuration(widget.controller.value.position)} / ${_formatDuration(widget.controller.value.duration)}',
                               style: TextStyle(color: Colors.white),
                             ),
-                            // FullScreen Toggle Button
                             IconButton(
                               onPressed: () {
-                                Navigator.pop(context); // Exit fullscreen
+                                Navigator.pop(context);
                               },
                               icon: Icon(
                                 _isFullScreen

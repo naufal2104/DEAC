@@ -1,4 +1,5 @@
 import 'package:DEAC/Menu/home.dart';
+import 'package:DEAC/Post_test/Html_test.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -283,42 +284,65 @@ class _PostTestScreenState extends State<PostTestScreen> {
                     itemBuilder: (context, index) {
                       final double topMargin =
                           (index == 0 || index == 1 || index == 2) ? screenHeight * 0.02 : 0.0;
-                      return Container(
-                        margin: EdgeInsets.only(top: topMargin),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(20),
+                      return GestureDetector(
+                        onTap: () {
+                          // Navigasi ke halaman yang sesuai
+                          switch (menuTitles[index]) {
+                            case 'HTML':
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HtmlTestPage()));
+                              break;
+                            case 'CSS':
+                              // Tambah navigasi ke halaman CSS
+                              break;
+                            case 'JAVASCRIPT':
+                              // Tambah navigasi ke halaman JavaScript
+                              break;
+                            case 'PYTHON':
+                              // Tambah navigasi ke halaman Python
+                              break;
+                            // Tambahkan case lainnya untuk menu lain
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: topMargin),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    width: screenWidth * 0.2,
+                                    height: screenWidth * 0.2,
                                   ),
-                                  width: screenWidth * 0.2,
-                                  height: screenWidth * 0.2,
-                                ),
-                                ClipRRect(
-                                  child: Image.asset(
-                                    menuImages[index],
-                                    fit: BoxFit.cover,
-                                    height: screenWidth * 0.12,
-                                    width: screenWidth * 0.12,
+                                  ClipRRect(
+                                    child: Image.asset(
+                                      menuImages[index],
+                                      fit: BoxFit.cover,
+                                      height: screenWidth * 0.12,
+                                      width: screenWidth * 0.12,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenHeight * 0.01),
-                            Text(
-                              menuTitles[index],
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontSize: screenHeight * 0.015,
+                                ],
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                              SizedBox(height: screenHeight * 0.01),
+                              Text(
+                                menuTitles[index],
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontSize: screenHeight * 0.015,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
