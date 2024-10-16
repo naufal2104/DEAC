@@ -85,12 +85,11 @@ class _HtmlPageState extends State<HtmlPage> {
     return Stack(
       children: [
         ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child :
-        AspectRatio(
-          aspectRatio: _controllers[index].value.aspectRatio,
-          child: VideoPlayer(_controllers[index]),
-        ),
+          borderRadius: BorderRadius.circular(20),
+          child: AspectRatio(
+            aspectRatio: _controllers[index].value.aspectRatio,
+            child: VideoPlayer(_controllers[index]),
+          ),
         ),
         Center(
           child: Padding(
@@ -114,7 +113,8 @@ class _HtmlPageState extends State<HtmlPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FullScreenVideoPage(_controllers[index]),
+                  builder: (context) =>
+                      FullScreenVideoPage(_controllers[index]),
                 ),
               );
             },
@@ -127,165 +127,183 @@ class _HtmlPageState extends State<HtmlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF00A9FA),
-        elevation: 0,
-        leading: IconButton(
-  icon: Image.asset(
-    'assets/icons/arrow.png', // Ganti dengan gambar kustom
-    width: 60,
-    height: 60,
-  ),
-  onPressed: () {
-    // Hentikan semua video sebelum navigasi
-    for (int i = 0; i < _controllers.length; i++) {
-      if (_controllers[i].value.isPlaying) {
-        _controllers[i].pause();
-        _isPlayingList[i] = false; // Memperbarui status pemutaran
-      }
-    }
-    // Navigasi ke HomeScreen
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-  },
-),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF00A9FA),
-              Color(0xFFBBE9FF),
-              Color(0xFF88D8FF),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              Text(
-                'LEARN',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                ),
+      body: Stack(
+        children: [
+          // Background dan konten lainnya
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF00A9FA),
+                  Color(0xFFBBE9FF),
+                  Color(0xFF88D8FF),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              SizedBox(height: 20),
-              // Container yang menampilkan HTML dan gambar
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFC70700),
-                      Color(0xFFF03E11),
-                      Color(0xFFF1BF74),
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/program/html.png', // Gambar di sebelah kiri teks HTML
-                      width: 40,
-                      height: 40,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.04),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Memberikan jarak antara ikon "arrow" dan teks "LEARN"
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                  Text(
+                    'LEARN',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
                     ),
-                    SizedBox(width: 10), // Jarak antara gambar dan teks
-                    Text(
-                      'HTML',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFFC70700),
+                          Color(0xFFF03E11),
+                          Color(0xFFF1BF74),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/program/html.png',
+                          width: 40,
+                          height: 40,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'HTML',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: ListView.builder(
+                        itemCount: videoAssets.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.05,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  children: [
+                                    _buildVideoPlayer(index),
+                                    SizedBox(height: 10),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        videoTitles[index],
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[300],
+                                          borderRadius:
+                                              BorderRadius.circular(14),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 6),
+                                        child: Text(
+                                          _formatDuration(_controllers[index]
+                                              .value
+                                              .duration),
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                            ],
+                          );
+                        },
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: EdgeInsets.only(top: 16, bottom: 16),
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: ListView.builder(
-                    itemCount: videoAssets.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Container(
-  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-  decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(20),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.2), // Warna bayangan
-        spreadRadius: 2, // Jarak penyebaran bayangan
-        blurRadius: 5, // Tingkat kabur bayangan
-        offset: Offset(0, 3), // Posisi bayangan (horizontal, vertical)
-      ),
-    ],
-  ),
-  padding: EdgeInsets.all(16),
-  child: Column(
-    children: [
-      _buildVideoPlayer(index),
-      SizedBox(height: 10),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          videoTitles[index], // Menggunakan judul dari daftar
-          style: TextStyle(
-            fontFamily: 'Inter', // Mengatur font menjadi Inter
-            fontSize: 16,
-            fontWeight: FontWeight.w600, // Menggunakan semi-bold
-          ),
-        ),
-      ),
-      SizedBox(height: 10),
-      Align(
-        alignment: Alignment.bottomRight,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(14),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Text(
-            _formatDuration(_controllers[index].value.duration),
-            style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          ),
-        ),
-      ),
-    ],
-  ),
-),
-                          SizedBox(height: 10),
-                        ],
-                      );
-                    },
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          // Tombol Kembali di atas teks "LEARN" dengan jarak
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.07,
+              left: MediaQuery.of(context).size.width *
+                  0.0000001, // Lebih ke kiri
+            ),
+            child: IconButton(
+              icon: Image.asset(
+                'assets/icons/arrow.png',
+                width: 40,
+                height: 40,
+              ),
+              onPressed: () {
+                // Hentikan semua video sebelum navigasi
+                for (int i = 0; i < _controllers.length; i++) {
+                  if (_controllers[i].value.isPlaying) {
+                    _controllers[i].pause();
+                    _isPlayingList[i] = false;
+                  }
+                }
+                // Navigasi ke HomeScreen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -317,7 +335,7 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
     super.initState();
     widget.controller.addListener(() {
       if (mounted) {
-        setState(() {}); 
+        setState(() {});
       }
     });
     SystemChrome.setPreferredOrientations([
@@ -334,7 +352,7 @@ class _FullScreenVideoPageState extends State<FullScreenVideoPage> {
       DeviceOrientation.portraitDown,
     ]);
     _hideControlsTimer.cancel();
-    widget.controller.removeListener(() {}); 
+    widget.controller.removeListener(() {});
     super.dispose();
   }
 
